@@ -65,6 +65,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "circleci.fullname" . }}-ui
+  labels:
+    {{- include "circleci.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -91,6 +93,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "circleci.fullname" . }}-cache
+  labels:
+    {{- include "circleci.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -114,6 +118,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "circleci.fullname" . }}-db
+  labels:
+    {{- include "circleci.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -137,6 +143,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "circleci.fullname" . }}-appserver
+  labels:
+    {{- include "circleci.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
