@@ -1,0 +1,166 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "circleci.fullname" . }}
+  labels:
+    {{- include "circleci.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "circleci.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "circleci.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "circleci.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.healthcheck.livenessProbe.path }}
+              port: {{ .Values.healthcheck.livenessProbe.port }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.healthcheck.livenessProbe.path }}
+              port: {{ .Values.healthcheck.livenessProbe.port }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "circleci.fullname" . }}-ui
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "circleci.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "circleci.fullname" . }}
+        tier: frontend
+        release: {{ .Release.Name }}
+        chart: {{ include "circleci.chart" . }}
+    spec:
+      containers:
+      - name: circleci-ui
+        image:  nomisbeme/yelb-ui:0.6
+        ports:
+        - containerPort: 80
+        env:
+        - name: "APP_SERVER_HOSTNAME"
+          value: {{ include "circleci.fullname" . }}-appserver
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "circleci.fullname" . }}-cache
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "circleci.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "circleci.fullname" . }}
+        tier: cache
+        release: {{ .Release.Name }}
+        chart: {{ include "circleci.chart" . }}
+    spec:
+      containers:
+      - name: redis-server
+        image: redis:4.0.2
+        ports:
+        - containerPort: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "circleci.fullname" . }}-db
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "circleci.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "circleci.fullname" . }}
+        tier: backenddb
+        release: {{ .Release.Name }}
+        chart: {{ include "circleci.chart" . }}
+    spec:
+      containers:
+      - name: {{ include "circleci.fullname" . }}-db
+        image:  mreferre/yelb-db:0.6
+        ports:
+        - containerPort: 5432
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "circleci.fullname" . }}-appserver
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "circleci.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "circleci.fullname" . }}
+        tier: middletier
+        release: {{ .Release.Name }}
+        chart: {{ include "circleci.chart" . }}
+    spec:
+      containers:
+      - name: {{ include "circleci.fullname" . }}-appserver
+        image:  mreferre/yelb-appserver:0.7
+        ports:
+        - containerPort: 4567
+        env:
+        - name: "RACK_ENV"
+          value: "custom"
+        - name: "APP_SERVER_HOSTNAME"
+          value: {{ include "circleci.fullname" . }}-appserver
+        - name: "REDIS_SERVER_ENDPOINT"
+          value: {{ include "circleci.fullname" . }}-redis-server
+        - name: "YELB_DB_SERVER_ENDPOINT"
+          value: {{ include "circleci.fullname" . }}-db
