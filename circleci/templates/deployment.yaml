@@ -77,8 +77,8 @@ spec:
       labels:
         app: {{ include "circleci.fullname" . }}
         tier: frontend
-        release: {{ .Release.Name }}
-        chart: {{ include "circleci.chart" . }}
+        #release: {{ .Release.Name }}
+        #chart: {{ include "circleci.chart" . }}
     spec:
       containers:
       - name: circleci-ui
@@ -105,8 +105,8 @@ spec:
       labels:
         app: circleci
         tier: cache
-        release: {{ .Release.Name }}
-        chart: {{ include "circleci.chart" . }}
+        #release: {{ .Release.Name }}
+        #chart: {{ include "circleci.chart" . }}
     spec:
       containers:
       - name: redis-server
@@ -130,8 +130,8 @@ spec:
       labels:
         app: circleci
         tier: backenddb
-        release: {{ .Release.Name }}
-        chart: {{ include "circleci.chart" . }}
+        #release: {{ .Release.Name }}
+        #chart: {{ include "circleci.chart" . }}
     spec:
       containers:
       - name: {{ include "circleci.fullname" . }}-db
@@ -155,8 +155,8 @@ spec:
       labels:
         app: circleci
         tier: middletier
-        release: {{ .Release.Name }}
-        chart: {{ include "circleci.chart" . }}
+        #release: {{ .Release.Name }}
+        #chart: {{ include "circleci.chart" . }}
     spec:
       containers:
       - name: {{ include "circleci.fullname" . }}-appserver
