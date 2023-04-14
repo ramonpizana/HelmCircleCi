@@ -22,9 +22,9 @@ metadata:
   name: {{ include "circleci.fullname" . }}-ui
   labels:
     app: {{ include "circleci.fullname" . }}
-    tier: frontend
-    chart: {{ include "circleci.chart" . }}
-    release: {{ .Release.Name }}
+    #tier: frontend
+    #chart: {{ include "circleci.chart" . }}
+    #release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   type: {{ .Values.service.type }}
@@ -35,8 +35,8 @@ spec:
     name: http
   selector:
     app: {{ include "circleci.fullname" . }}
-    tier: frontend
-    release: {{ .Release.Name }}
+    #tier: frontend
+    #release: {{ .Release.Name }}
 ---
 apiVersion: v1
 kind: Service
@@ -44,9 +44,9 @@ metadata:
   name: {{ include "circleci.fullname" . }}-redis-server
   labels:
     app: {{ include "circleci.fullname" . }}
-    tier: cache
-    chart: {{ include "circleci.chart" . }}
-    release: {{ .Release.Name }}
+    #tier: cache
+    #chart: {{ include "circleci.chart" . }}
+    #release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   type: ClusterIP
@@ -54,8 +54,8 @@ spec:
   - port: 6379
   selector:
     app: {{ include "circleci.fullname" . }}
-    tier: cache
-    release: {{ .Release.Name }}
+    #tier: cache
+    #release: {{ .Release.Name }}
 ---
 apiVersion: v1
 kind: Service
@@ -63,17 +63,17 @@ metadata:
   name: {{ include "circleci.fullname" . }}-db
   labels:
     app: {{ include "circleci.fullname" . }}
-    tier: backenddb
-    release: {{ .Release.Name }}
-    chart: {{ include "circleci.chart" . }}
+    #tier: backenddb
+    #release: {{ .Release.Name }}
+    #chart: {{ include "circleci.chart" . }}
 spec:
   type: ClusterIP
   ports:
   - port: 5432
   selector:
     app: {{ include "circleci.fullname" . }}
-    tier: backenddb
-    release: {{ .Release.Name }}
+    #tier: backenddb
+    #release: {{ .Release.Name }}
 ---
 apiVersion: v1
 kind: Service
@@ -81,14 +81,14 @@ metadata:
   name: {{ include "circleci.fullname" . }}-appserver
   labels:
     app: {{ include "circleci.fullname" . }}
-    tier: middletier
-    release: {{ .Release.Name }}
-    chart: {{ include "circleci.chart" . }}
+    #tier: middletier
+    #release: {{ .Release.Name }}
+    #chart: {{ include "circleci.chart" . }}
 spec:
   type: ClusterIP
   ports:
   - port: 4567
   selector:
     app: {{ include "circleci.fullname" . }}
-    tier: middletier
-    release: {{ .Release.Name }}
+    #tier: middletier
+    #release: {{ .Release.Name }}
