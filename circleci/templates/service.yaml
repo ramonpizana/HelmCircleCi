@@ -19,9 +19,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "circleci.fullname" . }}-ui
+  name: svc-ui
   labels:
-    app: {{ include "circleci.fullname" . }}
+    app: circleci1
     #tier: frontend
     #chart: {{ include "circleci.chart" . }}
     #release: {{ .Release.Name }}
@@ -34,16 +34,16 @@ spec:
     targetPort: 80
     name: http
   selector:
-    app: {{ include "circleci.fullname" . }}
+    app: circleci1
     #tier: frontend
     #release: {{ .Release.Name }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "circleci.fullname" . }}-redis-server
+  name: svc-redis-server
   labels:
-    app: {{ include "circleci.fullname" . }}
+    app: circleci2
     #tier: cache
     #chart: {{ include "circleci.chart" . }}
     #release: {{ .Release.Name }}
@@ -53,16 +53,16 @@ spec:
   ports:
   - port: 6379
   selector:
-    app: {{ include "circleci.fullname" . }}
+    app: circleci2
     #tier: cache
     #release: {{ .Release.Name }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "circleci.fullname" . }}-db
+  name: svc-db
   labels:
-    app: {{ include "circleci.fullname" . }}
+    app: circleci3
     #tier: backenddb
     #release: {{ .Release.Name }}
     #chart: {{ include "circleci.chart" . }}
@@ -71,16 +71,16 @@ spec:
   ports:
   - port: 5432
   selector:
-    app: {{ include "circleci.fullname" . }}
+    app: circleci3
     #tier: backenddb
     #release: {{ .Release.Name }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "circleci.fullname" . }}-appserver
+  name: svc-appserver
   labels:
-    app: {{ include "circleci.fullname" . }}
+    app: circleci4
     #tier: middletier
     #release: {{ .Release.Name }}
     #chart: {{ include "circleci.chart" . }}
@@ -89,6 +89,6 @@ spec:
   ports:
   - port: 4567
   selector:
-    app: {{ include "circleci.fullname" . }}
+    app: circleci4
     #tier: middletier
     #release: {{ .Release.Name }}
