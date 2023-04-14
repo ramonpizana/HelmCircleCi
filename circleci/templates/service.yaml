@@ -13,4 +13,3 @@ spec:
       name: http
   selector:
     {{- include "circleci.selectorLabels" . | nindent 4 }}
-
