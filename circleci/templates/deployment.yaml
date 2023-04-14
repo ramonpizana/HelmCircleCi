@@ -64,14 +64,14 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "circleci.fullname" . }}-ui
+  name: dp-ui
   labels:
-    {{- include "circleci.labels" . | nindent 4 }}
+    circleci
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "circleci.labels" . | nindent 4 }}
+      circleci
   template:
     metadata:
       labels:
@@ -92,18 +92,18 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "circleci.fullname" . }}-cache
+  name: dp-cache
   labels:
-    {{- include "circleci.labels" . | nindent 4 }}
+    circleci
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "circleci.selectorLabels" . | nindent 6 }}
+      circleci
   template:
     metadata:
       labels:
-        app: {{ include "circleci.fullname" . }}
+        app: circleci
         tier: cache
         release: {{ .Release.Name }}
         chart: {{ include "circleci.chart" . }}
@@ -117,18 +117,18 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "circleci.fullname" . }}-db
+  name: dp-db
   labels:
-    {{- include "circleci.labels" . | nindent 4 }}
+    circleci
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "circleci.labels" . | nindent 4 }}
+      circleci
   template:
     metadata:
       labels:
-        app: {{ include "circleci.fullname" . }}
+        app: circleci
         tier: backenddb
         release: {{ .Release.Name }}
         chart: {{ include "circleci.chart" . }}
@@ -142,18 +142,18 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "circleci.fullname" . }}-appserver
+  name: dp-appserver
   labels:
-    {{- include "circleci.labels" . | nindent 4 }}
+    circleci
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "circleci.labels" . | nindent 4 }}
+      circleci
   template:
     metadata:
       labels:
-        app: {{ include "circleci.fullname" . }}
+        app: circleci
         tier: middletier
         release: {{ .Release.Name }}
         chart: {{ include "circleci.chart" . }}
