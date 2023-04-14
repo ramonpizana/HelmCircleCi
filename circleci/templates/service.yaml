@@ -14,6 +14,7 @@ spec:
   selector:
     {{- include "circleci.selectorLabels" . | nindent 4 }}
 
+--- 
 
 apiVersion: v1
 kind: Service
