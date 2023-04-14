@@ -3,12 +3,12 @@ entries:
   circleci:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-04-14T11:59:51.923899-06:00"
+    created: "2023-04-14T13:16:17.778331-06:00"
     description: A Helm chart for Kubernetes
-    digest: 981374efde3aa788f87cb43610b71c68bc05bb5f5f5126ed69df04e42a3571b4
+    digest: cbd60b47a73efc33cc65b259d6f425c16f2e3620040dfe8b5dcb445f3843c4ac
     name: circleci
     type: application
     urls:
     - charts/circleci-0.1.0.tgz
     version: 0.1.0
-generated: "2023-04-14T11:59:51.921395-06:00"
+generated: "2023-04-14T13:16:17.777562-06:00"
