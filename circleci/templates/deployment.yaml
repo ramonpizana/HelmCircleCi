@@ -71,7 +71,7 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "circleci.selectorLabels" . | nindent 6 }}
+      {{- include "circleci.labels" . | nindent 4 }}
   template:
     metadata:
       labels:
@@ -124,7 +124,7 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "circleci.selectorLabels" . | nindent 6 }}
+      {{- include "circleci.labels" . | nindent 4 }}
   template:
     metadata:
       labels:
@@ -149,7 +149,7 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "circleci.selectorLabels" . | nindent 6 }}
+      {{- include "circleci.labels" . | nindent 4 }}
   template:
     metadata:
       labels:
