@@ -66,17 +66,17 @@ kind: Deployment
 metadata:
   name: dp-ui
   labels:
-    circleci
+    circleci1
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      circleci
+      circleci1
   template:
     metadata:
       labels:
-        app: {{ include "circleci.fullname" . }}
-        tier: frontend
+        app: circleci1
+        #tier: frontend
         #release: {{ .Release.Name }}
         #chart: {{ include "circleci.chart" . }}
     spec:
@@ -94,17 +94,17 @@ kind: Deployment
 metadata:
   name: dp-cache
   labels:
-    circleci
+    circleci2
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      circleci
+      circleci2
   template:
     metadata:
       labels:
-        app: circleci
-        tier: cache
+        app: circleci2
+        #tier: cache
         #release: {{ .Release.Name }}
         #chart: {{ include "circleci.chart" . }}
     spec:
@@ -119,17 +119,17 @@ kind: Deployment
 metadata:
   name: dp-db
   labels:
-    circleci
+    circleci3
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      circleci
+      circleci3
   template:
     metadata:
       labels:
-        app: circleci
-        tier: backenddb
+        app: circleci3
+        #tier: backenddb
         #release: {{ .Release.Name }}
         #chart: {{ include "circleci.chart" . }}
     spec:
@@ -144,17 +144,17 @@ kind: Deployment
 metadata:
   name: dp-appserver
   labels:
-    circleci
+    circleci4
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      circleci
+      circleci4
   template:
     metadata:
       labels:
-        app: circleci
-        tier: middletier
+        app: circleci4
+        #tier: middletier
         #release: {{ .Release.Name }}
         #chart: {{ include "circleci.chart" . }}
     spec:
